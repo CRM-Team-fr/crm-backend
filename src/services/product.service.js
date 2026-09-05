@@ -28,6 +28,8 @@ const PRODUCT_UPLOAD_DIR = path.join(__dirname, "../../uploads/products");
 const resolveImagePath = (imageFile) => {
     if (!imageFile) return null;
     if (imageFile.cloudinaryUrl) return imageFile.cloudinaryUrl;
+    // Guard against missing filename (e.g. memory storage without Cloudinary configured)
+    if (!imageFile.filename) return null;
     return path.join("uploads/products", imageFile.filename).replace(/\\/g, "/");
 };
 

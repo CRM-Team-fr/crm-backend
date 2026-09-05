@@ -12,7 +12,7 @@ const {
     stockAdjustmentValidator
 } = require("../validators/product.validator");
 const validate = require("../middlewares/validation.middleware");
-const { uploadProductImage } = require("../middlewares/upload.middleware");
+const { uploadProductImage, cloudinaryUploadMiddleware } = require("../middlewares/upload.middleware");
 
 // ----------------------------
 // Create Product (Admin, Manager)
@@ -23,6 +23,7 @@ router.post(
     authenticate,
     authorize("admin", "manager"),
     uploadProductImage.single("image"),
+    cloudinaryUploadMiddleware,
     createProductValidator,
     validate,
     productController.createProduct
@@ -57,6 +58,7 @@ router.patch(
     authenticate,
     authorize("admin", "manager"),
     uploadProductImage.single("image"),
+    cloudinaryUploadMiddleware,
     updateProductValidator,
     validate,
     productController.updateProduct
