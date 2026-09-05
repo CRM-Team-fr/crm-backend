@@ -186,6 +186,19 @@ const getEmployeeActivity = async (req, res, next) => {
     }
 };
 
+const adminMarkCustomerOtpVerified = async (req, res, next) => {
+    try {
+        const { phoneNumber } = req.body;
+        if (!phoneNumber) {
+            return res.status(400).json({ success: false, message: "phoneNumber is required." });
+        }
+        const result = await authService.adminMarkCustomerOtpVerified(phoneNumber);
+        return res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+};
+
 const cleanupGhostCustomerUsers = async (_req, res, next) => {
     try {
         const result = await authService.cleanupGhostCustomerUsers();
@@ -376,6 +389,8 @@ module.exports = {
 
     cleanupGhostCustomerUsers,
 
-    getEmployeeActivity
+    getEmployeeActivity,
+
+    adminMarkCustomerOtpVerified
 
 };

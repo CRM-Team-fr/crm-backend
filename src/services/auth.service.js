@@ -540,6 +540,38 @@ const logout = async (userId) => {
 
 };
 
+/**
+ * Admin bypass: manually mark a customer's phone as OTP-verified.
+ * For use when SMS delivery is blocked (e.g. Twilio trial restrictions) and
+ * admin has verified the customer's identity out-of-band (phone call, etc.)
+ */
+const adminMarkCustomerOtpVerified = async (phoneNumber) => {
+    const Otp = require("../models/otp.model");
+    const customer = await User.findOne({ phoneNumber, role: "customer" });
+    if (!customer) {
+        throw new BusinessError("Customer not found for that phone.", 404);
+    }
+    if (customer.status === "pending") {
+        throw new BusinessError("Approve the customer first.", 400);
+    }
+    if (customer.status === "suspended") {
+        throw new BusinessError("Cannot verify a suspended customer.", 400);
+    }
+    customer.otpVerified = true;
+    await customer.save();
+    // Clear any lingering OTP doc so the customer can still request one later normally
+    await Otp.deleteMany({ phoneNumber });
+    return {
+        success: true,
+        message: `${customer.Name} can now log in without OTP once.`,
+        customer: {
+            id: customer._id,
+            Name: customer.Name,
+            phoneNumber: customer.phoneNumber
+        }
+    };
+};
+
 const cleanupGhostCustomerUsers = async () => {
     // 1. Customer Users without a CustomerProfile
     const customerUsers = await User.find({ role: "customer" }).select("_id Name phoneNumber");
@@ -836,5 +868,6 @@ module.exports = {
     reactivateEmployee,
     updateCustomerStatus,
     cleanupGhostCustomerUsers,
-    getEmployeeActivity
+    getEmployeeActivity,
+    adminMarkCustomerOtpVerified
 }

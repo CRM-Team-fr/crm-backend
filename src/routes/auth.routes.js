@@ -118,6 +118,13 @@ router.patch(
 );
 
 router.post(
+    "/admin/mark-customer-verified",
+    authenticate,
+    authorize("admin"),
+    authController.adminMarkCustomerOtpVerified
+);
+
+router.post(
     "/admin/cleanup-ghost-users",
     authenticate,
     authorize("admin"),
