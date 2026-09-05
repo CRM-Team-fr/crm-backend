@@ -26,7 +26,7 @@ const createProductValidator = [
         .withMessage("Category must not exceed 50 characters."),
 
     body("description")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 500 })
         .withMessage("Description must not exceed 500 characters."),
@@ -38,12 +38,12 @@ const createProductValidator = [
         .withMessage("Selling price must be a non-negative number."),
 
     body("costPrice")
-        .optional()
+        .optional({ values: "falsy" })
         .isFloat({ min: 0 })
         .withMessage("Cost price must be a non-negative number."),
 
     body("tax")
-        .optional()
+        .optional({ values: "falsy" })
         .isFloat({ min: 0, max: 100 })
         .withMessage("Tax must be between 0 and 100."),
 
@@ -55,17 +55,17 @@ const createProductValidator = [
         .withMessage("Unit must not exceed 20 characters."),
 
     body("stock")
-        .optional()
+        .optional({ values: "falsy" })
         .isInt({ min: 0 })
         .withMessage("Stock must be a non-negative integer."),
 
     body("minimumStock")
-        .optional()
+        .optional({ values: "falsy" })
         .isInt({ min: 0 })
         .withMessage("Minimum stock must be a non-negative integer."),
 
     body("status")
-        .optional()
+        .optional({ values: "falsy" })
         .isIn(["active", "inactive"])
         .withMessage("Invalid status. Only active and inactive are allowed.")
 
@@ -80,13 +80,13 @@ const updateProductValidator = [
         .withMessage("Invalid product ID."),
 
     body("name")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 100 })
         .withMessage("Product name must not exceed 100 characters."),
 
     body("SKU")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 50 })
         .withMessage("SKU must not exceed 50 characters.")
@@ -94,45 +94,45 @@ const updateProductValidator = [
         .withMessage("SKU must contain only uppercase letters, numbers, and hyphens."),
 
     body("category")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 50 })
         .withMessage("Category must not exceed 50 characters."),
 
     body("description")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 500 })
         .withMessage("Description must not exceed 500 characters."),
 
     body("sellingPrice")
-        .optional()
+        .optional({ values: "falsy" })
         .isFloat({ min: 0 })
         .withMessage("Selling price must be a non-negative number."),
 
     body("costPrice")
-        .optional()
+        .optional({ values: "falsy" })
         .isFloat({ min: 0 })
         .withMessage("Cost price must be a non-negative number."),
 
     body("tax")
-        .optional()
+        .optional({ values: "falsy" })
         .isFloat({ min: 0, max: 100 })
         .withMessage("Tax must be between 0 and 100."),
 
     body("unit")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 20 })
         .withMessage("Unit must not exceed 20 characters."),
 
     body("minimumStock")
-        .optional()
+        .optional({ values: "falsy" })
         .isInt({ min: 0 })
         .withMessage("Minimum stock must be a non-negative integer."),
 
     body("status")
-        .optional()
+        .optional({ values: "falsy" })
         .isIn(["active", "inactive"])
         .withMessage("Invalid status. Only active and inactive are allowed.")
 
@@ -160,13 +160,13 @@ const stockAdjustmentValidator = [
         .withMessage("Quantity must be a positive integer."),
 
     body("reason")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 200 })
         .withMessage("Reason must not exceed 200 characters."),
 
     body("reference")
-        .optional()
+        .optional({ values: "falsy" })
         .trim()
         .isLength({ max: 100 })
         .withMessage("Reference must not exceed 100 characters.")
